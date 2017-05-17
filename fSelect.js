@@ -43,7 +43,9 @@
                 this.reload();
 
             },
-
+             /**
+             * fix the reload bugs
+             */
             reload: function() {
                 if (this.settings.showSearch) {
                     var search = '<div id="fs-search-id" class="fs-search"><input type="search" placeholder="' + this.settings.searchText + '" /></div>';
@@ -54,7 +56,6 @@
                 this.idx = 0;
                 this.optgroup = 0;
                 this.selected = [].concat(this.$select.val()); // force an array
-                console.log("已经选择的列表数据------------->"+this.selected);
                 var choices = this.buildOptions(this.$select);
                 this.$wrap.find('.fs-options').html(choices);
                 this.reloadDropdownLabel();
@@ -88,9 +89,9 @@
                         if (0 < $this.idx || '' != val || ! $this.settings.multiple) {
                             var disabled = $el.is(':disabled') ? ' disabled' : '';
                             //var selected = -1 < $.inArray(val, $this.selected) ? ' selected' : '';
+                            //fix reload bugs
                             var selected = '';
                             var group = ' g' + $this.optgroup;
-                            console.log("值:" + val + "-------------> 选中？:" +selected);
                             choices += '<div class="fs-option' + selected + disabled + group + '" data-value="' + val + '" data-index="' + $this.idx + '"><span class="fs-checkbox"><i></i></span><div class="fs-option-label">' + $el.html() + '</div></div>';
                             $this.idx++;
                         }
