@@ -41,16 +41,20 @@
                 this.$wrap.data('id', window.fSelect.num_items);
                 window.fSelect.num_items++;
                 this.reload();
+
             },
 
             reload: function() {
                 if (this.settings.showSearch) {
-                    var search = '<div class="fs-search"><input type="search" placeholder="' + this.settings.searchText + '" /></div>';
-                    this.$wrap.find('.fs-dropdown').prepend(search);
+                    var search = '<div id="fs-search-id" class="fs-search"><input type="search" placeholder="' + this.settings.searchText + '" /></div>';
+                    if(jQuery("#fs-search-id").length<=0){
+                        this.$wrap.find('.fs-dropdown').prepend(search);
+                    }
                 }
                 this.idx = 0;
                 this.optgroup = 0;
                 this.selected = [].concat(this.$select.val()); // force an array
+                console.log("已经选择的列表数据------------->"+this.selected);
                 var choices = this.buildOptions(this.$select);
                 this.$wrap.find('.fs-options').html(choices);
                 this.reloadDropdownLabel();
@@ -60,6 +64,7 @@
                 this.$wrap.find('.fs-label-wrap').remove();
                 this.$wrap.find('.fs-dropdown').remove();
                 this.$select.unwrap().removeClass('hidden');
+
             },
 
             buildOptions: function($element) {
@@ -82,8 +87,10 @@
                         // exclude the first option in multi-select mode
                         if (0 < $this.idx || '' != val || ! $this.settings.multiple) {
                             var disabled = $el.is(':disabled') ? ' disabled' : '';
-                            var selected = -1 < $.inArray(val, $this.selected) ? ' selected' : '';
+                            //var selected = -1 < $.inArray(val, $this.selected) ? ' selected' : '';
+                            var selected = '';
                             var group = ' g' + $this.optgroup;
+                            console.log("值:" + val + "-------------> 选中？:" +selected);
                             choices += '<div class="fs-option' + selected + disabled + group + '" data-value="' + val + '" data-index="' + $this.idx + '"><span class="fs-checkbox"><i></i></span><div class="fs-option-label">' + $el.html() + '</div></div>';
                             $this.idx++;
                         }
